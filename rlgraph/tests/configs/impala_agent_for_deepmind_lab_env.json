@@ -1,0 +1,17 @@
+{
+  "type": "impala",
+
+  "architecture": "large",
+
+  "update_spec": {
+    "batch_size": 2
+  },
+
+  "optimizer_spec": {
+    "type": "rms-prop",
+    "learning_rate": 0.00048,
+    "decay": 0.99,
+    "momentum": 0.0,
+    "epsilon": 0.1
+  }
+}

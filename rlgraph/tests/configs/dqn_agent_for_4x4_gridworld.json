@@ -1,0 +1,47 @@
+{
+  "type": "dqn",
+
+  "memory_spec":
+  {
+    "type": "replay",
+    "capacity": 64
+  },
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "reshape",
+      "flatten": true,
+      "flatten_categories": 16
+    }
+  ],
+
+  "policy_spec": {
+    "network_spec": [
+      {
+        "type": "dense",
+        "units": 16,
+        "activation": "linear",
+        "scope": "hidden-layer"
+      }
+    ]
+  },
+
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": ["linear", 1.0, 0.0]
+    }
+  },
+
+  "observe_spec":
+  {
+    "buffer_size": 64
+  },
+
+  "update_spec": {
+    "do_updates": true,
+    "update_interval": 4,
+    "batch_size": 16
+  }
+}

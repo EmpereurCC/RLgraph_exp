@@ -1,0 +1,54 @@
+{
+  "type": "actor-critic",
+
+  "sample_episodes": false,
+  "discount": 0.99,
+  "gae_lambda": 1.0,
+
+  "memory_spec":
+  {
+    "type": "ring-buffer",
+    "capacity": 16
+  },
+
+  "preprocessing_spec":
+  [
+  ],
+
+  "observe_spec": {
+    "buffer_size": 16
+  },
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 10,
+      "activation": "linear",
+      "scope": "hidden"
+    }
+  ],
+
+  "value_function_spec":
+  [
+    {
+      "type": "dense",
+      "units": 4,
+      "activation": "linear",
+      "scope": "vf-hidden"
+    }
+  ],
+
+  "update_spec": {
+    "do_updates": true,
+    "update_mode": "episodes",
+    "update_interval": 4,
+    "batch_size": 8
+  },
+
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.0005,
+    "clip_grad_norm": 10
+  }
+}

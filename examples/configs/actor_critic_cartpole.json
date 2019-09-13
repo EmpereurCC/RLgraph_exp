@@ -1,0 +1,67 @@
+{
+  "type": "actor_critic",
+  "sample_episodes": true,
+  "discount": 0.99,
+  "gae_lambda": 1.0,
+  "weight_entropy": 0.01,
+
+  "memory_spec":
+  {
+    "type": "ring_buffer",
+    "capacity": 10000
+  },
+
+  "preprocessing_spec":
+  [],
+
+  "observe_spec": {
+    "buffer_size": 200
+  },
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 32,
+      "activation": "tanh",
+      "scope": "hidden1"
+    },
+    {
+      "type": "dense",
+      "units": 32,
+      "activation": "tanh",
+      "scope": "hidden2"
+    }
+  ],
+  "value_function_spec":
+  [
+    {
+      "type": "dense",
+      "units": 32,
+      "activation": "tanh",
+      "scope": "vf-hidden1"
+    },
+    {
+      "type": "dense",
+      "units": 32,
+      "activation": "tanh",
+      "scope": "vf-hidden2"
+    }
+  ],
+
+  "update_spec": {
+    "update_mode": "episodes",
+    "do_updates": true,
+    "update_interval": 20,
+    "batch_size": 20
+  },
+
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.0025
+  },
+  "value_function_optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.0025
+  }
+}

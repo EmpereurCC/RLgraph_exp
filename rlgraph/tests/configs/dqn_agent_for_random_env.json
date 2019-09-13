@@ -1,0 +1,34 @@
+{
+  "type": "dqn",
+
+  "memory_spec":
+  {
+    "type": "replay",
+    "capacity": 10
+  },
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "reshape",
+      "flatten": true
+    }
+  ],
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 3,
+      "activation": "tanh",
+      "scope": "hidden-layer"
+    }
+  ],
+
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": ["linear", 1.0, 0.1]
+    }
+  }
+}

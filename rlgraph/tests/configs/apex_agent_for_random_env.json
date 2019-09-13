@@ -1,0 +1,56 @@
+{
+  "type": "apex",
+
+  "memory_spec":
+  {
+    "type": "prioritized_replay",
+    "capacity": 10
+  },
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "reshape",
+      "flatten": true
+    }
+  ],
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 3,
+      "activation": "tanh",
+      "scope": "hidden-layer"
+    }
+  ],
+
+  "policy_spec":
+  {
+    "type": "dueling-policy",
+    "units_state_value_stream": 3,
+    "action_adapter_spec": {
+      "pre_network_spec": [
+        {
+          "type": "dense",
+          "units": 3
+        }
+      ]
+    }
+  },
+
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": {
+        "type": "linear_decay",
+        "from": 1.0,
+        "to": 0.1
+      }
+    }
+  },
+    "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.05
+  }
+}

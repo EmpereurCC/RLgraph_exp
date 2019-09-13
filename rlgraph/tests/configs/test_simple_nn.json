@@ -1,0 +1,11 @@
+{
+  "scope": "test-network",
+  "layers": [
+    {
+      "type": "dense",
+      "activation": "linear",
+      "units": 2,
+      "scope": "hidden-layer"
+    }
+  ]
+}

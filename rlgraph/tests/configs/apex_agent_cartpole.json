@@ -1,0 +1,95 @@
+{
+  "type": "apex",
+  "discount": 0.99,
+  "n_step": 1,
+  "memory_spec": {
+    "type": "prioritized_replay",
+    "capacity": 128
+  },
+  "preprocessing_spec": null,
+  "saver_spec": null,
+  "execution_spec": {
+    "session_config": {
+      "log_device_placement": false,
+      "allow_soft_placement": true
+    },
+    "ray_spec": {
+      "executor_spec": {
+        "redis_address": null,
+        "num_cpus": 8,
+        "num_gpus": 0,
+        "weight_sync_steps": 100,
+        "replay_sampling_task_depth": 1,
+        "env_interaction_task_depth": 1,
+        "num_worker_samples": 50,
+        "learn_queue_size": 1,
+        "num_sample_workers": 2,
+        "num_replay_workers": 1
+      },
+      "worker_spec": {
+        "num_worker_environments": 2,
+        "num_background_envs": 1,
+        "execution_spec": {
+          "gpu_spec": { "gpus_enabled" : false}
+        },
+        "n_step_adjustment": 1,
+        "worker_executes_postprocessing": true,
+        "sample_exploration": false,
+        "exploration_min_value": 0.5
+      },
+      "apex_replay_spec": {
+        "memory_spec": {
+          "capacity": 1000,
+          "alpha": 0.6,
+          "beta": 0.4
+        },
+        "clip_rewards": false,
+        "min_sample_memory_size": 200,
+        "n_step_adjustment": 1
+      }
+    }
+  },
+  "network_spec": [
+    {
+      "type": "dense",
+      "units": 20,
+      "activation": "tanh",
+      "scope": "hidden"
+    }
+  ],
+
+  "policy_spec":
+  {
+    "type": "dueling-policy",
+    "units_state_value_stream": 8,
+    "action_adapter_spec": {
+      "pre_network_spec": [
+        {
+          "type": "dense",
+          "units": 8
+        }
+      ]
+    }
+  },
+
+  "exploration_spec": {
+    "epsilon_spec": {
+      "decay_spec": {
+        "type": "linear_decay",
+        "from": 1.0,
+        "to": 0.05
+      }
+    }
+  },
+  "update_spec": {
+    "do_updates": true,
+    "update_interval": 1,
+    "batch_size": 24,
+    "sync_interval": 32,
+    "steps_before_update": 256
+  },
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.02
+  }
+}

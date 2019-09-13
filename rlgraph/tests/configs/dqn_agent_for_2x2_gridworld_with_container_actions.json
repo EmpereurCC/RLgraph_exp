@@ -1,0 +1,85 @@
+{
+  "type": "dqn",
+
+  "memory_spec": {
+    "type": "prioritized-replay",
+    "capacity": 64
+  },
+  "preprocessing_spec": [
+    {
+      "type": "convert-type",
+      "to_dtype": "float32"
+    }
+  ],
+  "network_spec":
+  [
+    {
+        "type": "dense",
+        "units": 16,
+        "activation": "lrelu"
+    }
+  ],
+  "policy_spec": {
+    "type": "dueling-policy",
+    "units_state_value_stream": 16,
+    "action_adapter_spec":
+    {
+      "turn": {
+        "pre_network_spec": [
+          {
+            "type": "dense",
+            "units": 16,
+            "activation": "lrelu"
+          }
+        ]
+      },
+      "forward": {
+        "pre_network_spec": [
+          {
+            "type": "dense",
+            "units": 16,
+            "activation": "lrelu"
+          }
+        ]
+      },
+      "jump": {
+        "pre_network_spec": [
+          {
+            "type": "dense",
+            "units": 16,
+            "activation": "lrelu"
+          }
+        ]
+      }
+    }
+  },
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": {
+        "type": "linear-decay",
+        "from": 1.0,
+        "to": 0.05
+      }
+    }
+  },
+
+  "observe_spec":
+  {
+    "buffer_size": 32
+  },
+
+  "update_spec": {
+    "do_updates": true,
+    "update_interval": 4,
+    "batch_size": 8,
+    "sync_interval": 8
+  },
+
+  "optimizer_spec":
+  {
+    "type": "adam",
+    "learning_rate": ["linear", 0.01, 0.00001],
+    "clip_grad_norm": 10
+  }
+}

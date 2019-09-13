@@ -1,0 +1,50 @@
+{
+  "type": "single-impala",
+
+  "fifo_queue_spec":
+  {
+    "capacity": 1
+  },
+
+  "environment_spec":
+  {
+    "type": "gridworld",
+    "world": "2x2"
+  },
+
+  "worker_sample_size": 5,
+
+  "feed_previous_action_through_nn": false,
+  "feed_previous_reward_through_nn": false,
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "reshape",
+      "flatten": true,
+      "flatten_categories": 4
+    }
+  ],
+
+  "network_spec":
+  {
+    "layers": [
+      {
+        "type": "dense",
+        "units": 10,
+        "activation": "linear",
+        "scope": "hidden-layer"
+      }
+    ],
+    "scope": "impala-net"
+  },
+
+  "exploration_spec":
+  {
+  },
+
+  "update_spec": {
+    "do_updates": true,
+    "batch_size": 16
+  }
+}

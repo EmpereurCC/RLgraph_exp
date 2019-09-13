@@ -1,0 +1,69 @@
+{
+  "type": "dqn",
+  "discount": 0.95,
+
+  "memory_spec":
+  {
+    "type": "replay",
+    "capacity": 6
+  },
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "reshape",
+      "flatten": true,
+      "flatten_categories": 4
+    }
+  ],
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 2,
+      "activation": "linear",
+      "weights_spec": 0.9,
+      "biases_spec": false,
+      "scope": "hidden"
+    }
+  ],
+
+  "policy_spec": {
+    "action_adapter_spec": {
+      "activation": "linear",
+      "weights_spec": 0.8,
+      "biases_spec": false
+    }
+  },
+
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": {
+        "type": "linear-decay",
+        "from": 1.0,
+        "to": 0.0
+      }
+    }
+  },
+
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.5
+  },
+
+  "update_spec": {
+    "update_interval": 4,
+    "batch_size": 2,
+    "sync_interval": 8
+  },
+
+  "observe_spec": {
+    "buffer_size": 2
+  },
+
+  "execution_spec": {
+    "seed": 10
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "type": "dqn",
+
+  "memory_spec":
+  {
+    "type": "replay",
+    "capacity": 128
+  },
+
+  "preprocessing_spec":
+  [],
+
+  "network_spec":
+  [
+    {
+      "type": "dense",
+      "units": 20,
+      "activation": "tanh",
+      "scope": "hidden"
+    }
+  ],
+
+  "exploration_spec":
+  {
+    "epsilon_spec": {
+      "decay_spec": ["linear", 1.0, 0.05]
+    }
+  },
+
+  "observe_spec":
+  {
+    "buffer_size": 128
+  },
+
+  "update_spec": {
+    "update_mode": "time_steps",
+    "do_updates": true,
+    "update_interval": 4,
+    "batch_size": 16,
+    "sync_interval": 32
+  },
+
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.02
+  }
+}

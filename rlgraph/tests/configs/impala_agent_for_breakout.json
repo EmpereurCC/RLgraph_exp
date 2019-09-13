@@ -1,0 +1,99 @@
+{
+  "type": "single-impala",
+
+  "num_workers": 4,
+  "worker_sample_size": 100,
+
+  "fifo_queue_spec":
+  {
+    "capacity": 1
+  },
+
+  "environment_spec":
+  {
+    "type": "open-ai-gym",
+    "gym_env": "Breakout-v0"
+  },
+
+  "feed_previous_action_through_nn": false,
+  "feed_previous_reward_through_nn": false,
+  "batch_apply": true,
+
+  "preprocessing_spec":
+  [
+    {
+      "type": "image_crop",
+      "x": 0,
+      "y": 25,
+      "width": 160,
+      "height": 160
+    },
+    {
+      "type": "image_resize",
+      "width": 80,
+      "height": 80
+    },
+    {
+      "type": "grayscale",
+      "keep_rank": true
+    },
+    {
+      "type": "divide",
+      "divisor": 255
+    },
+    {
+      "type": "sequence",
+      "sequence_length": 4,
+      "batch_size": 1,
+      "add_rank": false
+    }
+  ],
+
+  "network_spec":
+  [
+    {
+        "type": "conv2d",
+        "filters": 32,
+        "kernel_size": 8,
+        "strides": 4,
+        "activation": "relu",
+        "scope": "conv1"
+    },
+    {
+        "type": "conv2d",
+        "filters": 64,
+        "kernel_size": 4,
+        "strides": 2,
+        "activation": "relu",
+        "scope": "conv2"
+    },
+    {
+        "type": "conv2d",
+        "filters": 64,
+        "kernel_size": 3,
+        "strides": 1,
+        "activation": "relu",
+        "scope": "conv3"
+    },
+    {
+        "type": "reshape",
+        "flatten": true
+    }
+  ],
+
+  "exploration_spec":
+  {
+  },
+
+  "update_spec": {
+    "do_updates": true,
+    "batch_size": 32
+  },
+
+  "optimizer_spec": {
+    "type": "adam",
+    "learning_rate": 0.0001,
+    "clip_grad_norm": 20
+  }
+}
+
